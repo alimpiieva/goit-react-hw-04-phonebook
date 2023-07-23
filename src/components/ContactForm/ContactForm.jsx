@@ -1,60 +1,59 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { LabelForm, Label, InputField, SubmitButton } from './ContactForm.styled';
 import PropTypes from 'prop-types';
 
-class ContactForm extends Component {
-  state = {
-        name: '',
-        number: ''
-      };
-  
+const ContactForm = ({ addContact }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    this.props.addContact(this.state.name, this.state.number);
-    this.setState({ name: '', number: '' });
+    addContact(name, number);
+    setName('');
+    setNumber('');
   };
 
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+  const handleChange = e => {
+    const { name, value } = e.target;
+    if (name === 'name') {
+      setName(value);
+    } else if (name === 'number') {
+      setNumber(value);
+    }
   };
 
-  render() {
-    const { name, number } = this.state;
-
-    return (
-      <LabelForm onSubmit={this.handleSubmit}>
-        <div>
-          <Label htmlFor="name">Name</Label>
-          <InputField
-            type="text"
-            id="name"
-            name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-            value={name}
-            onChange={this.handleChange}
-          />
-        </div>
-        <div>
-          <Label htmlFor="number">Number</Label>
-          <InputField
-            type="tel"
-            id="number"
-            name="number"
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-            value={number}
-            onChange={this.handleChange}
-          />
-        </div>
-        <SubmitButton type="submit">Add Contact</SubmitButton>
-      </LabelForm>
-    );
-  }
-}
+  return (
+    <LabelForm onSubmit={handleSubmit}>
+      <div>
+        <Label htmlFor="name">Ім'я</Label>
+        <InputField
+          type="text"
+          id="name"
+          name="name"
+          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          title="Ім'я може містити лише літери, апостроф, тире та пробіли. Наприклад, Адріан, Якоб Мерсер, Шарль де Бац де Кастельмор д'Артаньян"
+          required
+          value={name}
+          onChange={handleChange}
+        />
+      </div>
+      <div>
+        <Label htmlFor="number">Номер телефону</Label>
+        <InputField
+          type="tel"
+          id="number"
+          name="number"
+          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+          title="Номер телефону повинен містити лише цифри та може включати пробіли, тире, дужки та може починатися з +"
+          required
+          value={number}
+          onChange={handleChange}
+        />
+      </div>
+      <SubmitButton type="submit">Додати контакт</SubmitButton>
+    </LabelForm>
+  );
+};
 
 ContactForm.propTypes = {
   addContact: PropTypes.func.isRequired,
