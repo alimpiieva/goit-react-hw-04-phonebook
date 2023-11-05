@@ -3,7 +3,10 @@ import ContactList from 'components/ContactList/ContactList';
 import ContactForm from 'components/ContactForm/ContactForm';
 import ContactsFilter from 'components/ContactsFilter/ContactsFilter';
 import { nanoid } from 'nanoid';
-import { Container } from './App.styled';
+import {  Container,
+  AppHeader, 
+  FilterLabel, 
+  ContactListContainer, } from './App.styled';
 
 const App = () => {
   const [contacts, setContacts] = useState(()=>JSON.parse(localStorage.getItem('contacts')) ?? [
@@ -58,11 +61,13 @@ const App = () => {
 
   return (
     <Container>
+      <AppHeader>Contacts:</AppHeader>
       <ContactForm addContact={addContact} />
-
-      <h2>Contacts:</h2>
+      <FilterLabel>Find contacts by name:</FilterLabel>
       <ContactsFilter filter={filter} onFilterChange={handleFilterChange} />
-      <ContactList contacts={filteredContacts} onDeleteContact={deleteContact} />
+      <ContactListContainer>
+        <ContactList contacts={filteredContacts} onDeleteContact={deleteContact} />
+      </ContactListContainer>
     </Container>
   );
 };

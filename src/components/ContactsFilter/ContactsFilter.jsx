@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FilterInput } from './ContactsFilter.styled';
 
 const ContactsFilter = ({ filter, onFilterChange }) => {
   return (
-    <input
+    <FilterInput
       type="text"
       name="filter"
       value={filter}
